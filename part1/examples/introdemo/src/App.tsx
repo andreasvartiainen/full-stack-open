@@ -1,46 +1,41 @@
+import { useState } from 'react';
 import './App.css'
+import Counter from './components/counter';
+import Footer from './components/footer';
+import Hello from './components/hello';
+import Hello_props from './components/helloProps';
+import Button from './components/button';
 
-interface Props {
+export interface Props {
 	name: string;
-}
-
-const Footer = () => {
-	const creators = [
-		{name: 'Tomi', age: 26},
-		{name: 'Sidepersonality', age: 26},
-	]
-
-	return (
-		<div>
-		{creators[0].name} {creators[0].age}
-		{creators[1].name} {creators[1].age}
-		</div>
-	)
-}
-
-const Hello_props = (props: any) => {
-	console.log(props);
-	return (
-		<div>
-			<p>Hello { props.name } age {props.age}</p>
-		</div>
-	)
-}
-
-const Hello = ({name}: Props) => {
-	return (
-		<div>
-		 <p>Hello {name}</p>
-		</div>
-	)
+	age: number;
 }
 
 const App = () => {
+	const [counter, setCounter] = useState(0);
+
+	const increaseByOne = () => {
+		console.log("plus 1");
+		setCounter(counter + 1);
+	}
+
+	const decreaseByOne = () => {
+		console.log("minus 1");
+		setCounter(counter - 1);
+	}
+
+	const setToZero = () => {
+		console.log("setting to zero");
+		setCounter(0);
+	}
+
 	return (
 		<>
-		<Hello name='Tomi'/>
-		<Hello_props name='Tomi' age='26'/>
-		<Footer />
+		<Hello name='Tomi' age={26}/>
+		<Counter counter={counter}/>
+		<Button text="-" onClick={decreaseByOne} />
+		<Button text="0" onClick={setToZero} />
+		<Button text="+" onClick={increaseByOne} />
 		</>
 	)
 }

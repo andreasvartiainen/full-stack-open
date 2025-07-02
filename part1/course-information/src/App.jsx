@@ -31,6 +31,25 @@ const Total = (props) => {
 	)
 }
 
+const Example = () => {
+	class Person {
+		constructor(name, age) {
+			this.name = name;
+			this.age = age;
+		}
+		greet() {
+			console.log(`hello, my name is ${this.name}`);
+		}
+	}
+
+	const person = new Person("pekka", 40);
+
+	console.log(person);
+	const ref = person.greet
+
+	return (<></>);
+}
+
 const App= () => {
 	const course = {
 		name: 'Half Stack application development',
@@ -55,6 +74,7 @@ const App= () => {
 		<Header course={course.name} />
 		<Content parts={course.parts} />
 		<Total parts={course.parts} />
+		<Example />
 		</div>
 	)
 }
