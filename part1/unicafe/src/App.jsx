@@ -8,9 +8,14 @@ const Button = ({text, onClick}) => {
 	)
 }
 
-const Display = ({text, value}) => {
+const StatisticsLine = ({text, value}) => {
 	return (
-		<p>{text} {value}</p>
+		<>
+		<tr>
+			<td>{text}</td>
+			<td>{value}</td>
+		</tr>
+		</>
 	)
 }
 
@@ -20,14 +25,16 @@ const Statistics = ({good, neutral, bad}) => {
 	const average =  totalScore / totalVotes
 
 	return (
-		<>
-		<Display text="good" value={good}/>
-		<Display text="neutral" value={neutral}/>
-		<Display text="bad" value={bad}/>
-		<Display text="all" value={totalVotes}/>
-		<Display text="average" value={average}/>
-		<Display text="positive" value={`${good / totalVotes} %`}/>
-		</>
+		<table>
+		<tbody>
+			<StatisticsLine text="good" value={good}/>
+			<StatisticsLine text="neutral" value={neutral}/>
+			<StatisticsLine text="bad" value={bad}/>
+			<StatisticsLine text="all" value={totalVotes}/>
+			<StatisticsLine text="average" value={average.toFixed(1)}/>
+			<StatisticsLine text="positive" value={`${((good / totalVotes)*100).toFixed(1)} %`}/>
+		</tbody>
+		</table>
 	)
 }
 
