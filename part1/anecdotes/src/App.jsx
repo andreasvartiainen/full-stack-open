@@ -28,10 +28,10 @@ const App = () => {
 
   return (
     <div>
-		<Button onClick={setRandom} text={"Anecdote"}/>
 		<div>
       {anecdotes[selected]}
 		</div>
+		<Button onClick={setRandom} text={"next anecdote"}/>
     </div>
   )
 }
