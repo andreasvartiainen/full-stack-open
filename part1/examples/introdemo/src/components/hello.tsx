@@ -1,4 +1,4 @@
-import type { Props } from "../App";
+import type { Props } from "../components/props";
 
 const Hello = ({name, age}: Props) => {
 	const bornYear = () => new Date().getFullYear() - age;
