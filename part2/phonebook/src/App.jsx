@@ -1,12 +1,7 @@
 import { useState } from 'react'
-
-const Input = ({text, value, onChange}) => {
-	return (
-		<div>
-			{text}: <input value={value} onChange={onChange}/>
-		</div>
-	)
-}
+import Input from './components/input'
+import PersonForm from './components/personForm'
+import Persons from './components/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -60,32 +55,21 @@ const App = () => {
 		setFilter(event.target.value);
 	}
 
-	// filter for getting substring from an item
-	const f = (person) => {
-		console.log(person.name.indexOf(filter));
-		// put filter and name to lowercase
-		return person.name.toLowerCase().indexOf(filter.toLowerCase()) != -1
-	}
-
-	// filter and add the items to the list use id as key
-	const listPersons = persons.filter(f).map((person) => 
-		<div key={person.id}>{person.name} {person.phone}</div> 
-	)
-
   return (
     <div>
       <h2>Phonebook</h2>
+			{/* I used Input instead of Filter as in the example, because the implementation like this is a bit clearer I think	 */}
       <Input text="filter shown with" value={filter} onChange={handleFilter}/>
       <h2>Add a new</h2>
-      <form>
-        <Input text="name" value={newName} onChange={handleName}/>
-				<Input text="number" value={newPhone} onChange={handlePhone}/>
-        <div>
-          <button type="submit" onClick={addPerson}>add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-			{listPersons}
+			<PersonForm 
+				newName={newName}
+				newPhone={newPhone}
+				handleName={handleName}
+				handlePhone={handlePhone}
+				addPerson={addPerson}
+			/>
+			<h2>Numbers</h2>
+			<Persons persons={persons} filter={filter}/>
     </div>
   )
 }
