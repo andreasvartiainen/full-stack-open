@@ -2,17 +2,29 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', phone: '358 505 050'}
   ]) 
   const [newName, setNewName] = useState('')
+  const [newPhone, setNewPhone] = useState('')
 
-	const handleChange = (event) => {
+	const handleName = (event) => {
 		console.log(newName);
 		setNewName(event.target.value);
 	}
 
+	const handlePhone = (event) => {
+		console.log(newPhone);
+		setNewPhone(event.target.value);
+	}
+
 	const addPerson = (event) => {
 		event.preventDefault();
+
+		// check if we have both fielsd
+		if (newPhone === '' || newName === '') {
+			alert(`Missing a phone number or name`);
+			return;
+		}
 
 		// check if the name already exists empty the string and return
 		if (persons.find((person) => person.name === newName)) {
@@ -23,21 +35,26 @@ const App = () => {
 
 		const newPerson = {
 			name: newName,
+			phone: newPhone,
 		};
 
 		setPersons([...persons, newPerson]);
 		setNewName('');
+		setNewPhone('');
 	}
 
-	const listPersons = persons.map((person) => <div key={person.name}>{person.name}</div> )
+	const listPersons = persons.map((person) => <div key={person.name}>{person.name} {person.phone}</div> )
 
   return (
     <div>
       <h2>Phonebook</h2>
       <form>
         <div>
-          name: <input value={newName} onChange={handleChange}/>
+          name: <input value={newName} onChange={handleName}/>
         </div>
+				<div>
+          number: <input value={newPhone} onChange={handlePhone}/>
+				</div>
         <div>
           <button type="submit" onClick={addPerson}>add</button>
         </div>
