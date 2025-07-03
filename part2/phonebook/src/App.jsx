@@ -14,14 +14,20 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('')
   const [filter, setFilter] = useState('')
 
-	const handleName = (event) => {
-		console.log(newName);
-		setNewName(event.target.value);
-	}
+	const handleChange = (event) => {
+		if (event.target.name === "name") {
+			console.log(newName);
+			setNewName(event.target.value);
+		}
 
-	const handlePhone = (event) => {
-		console.log(newPhone);
-		setNewPhone(event.target.value);
+		if (event.target.name === "phone") {
+			console.log(newPhone);
+			setNewPhone(event.target.value);
+		}
+
+		if (event.target.name === "filter") {
+			setFilter(event.target.value);
+		}
 	}
 
 	const addPerson = (event) => {
@@ -51,21 +57,16 @@ const App = () => {
 		setNewPhone('');
 	}
 
-	const handleFilter = (event) => {
-		setFilter(event.target.value);
-	}
-
   return (
     <div>
       <h2>Phonebook</h2>
 			{/* I used Input instead of Filter as in the example, because the implementation like this is a bit clearer I think	 */}
-      <Input text="filter shown with" value={filter} onChange={handleFilter}/>
+      <Input name="filter" text="filter shown with" value={filter} onChange={handleChange}/>
       <h2>Add a new</h2>
 			<PersonForm 
 				newName={newName}
 				newPhone={newPhone}
-				handleName={handleName}
-				handlePhone={handlePhone}
+				handleChange={handleChange}
 				addPerson={addPerson}
 			/>
 			<h2>Numbers</h2>

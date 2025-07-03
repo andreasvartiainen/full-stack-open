@@ -1,10 +1,10 @@
 import Input from "./input";
 
-const PersonForm = ({newName, newPhone, handleName, handlePhone, addPerson}) => {
+const PersonForm = ({newName, newPhone, handleChange ,addPerson}) => {
 	return (
 		<form>
-			<Input text="name" value={newName} onChange={handleName}/>
-			<Input text="number" value={newPhone} onChange={handlePhone}/>
+			<Input name="name" text="name" value={newName} onChange={handleChange}/>
+			<Input name="phone" text="number" value={newPhone} onChange={handleChange}/>
 			<div>
 				<button type="submit" onClick={addPerson}>add</button>
 			</div>

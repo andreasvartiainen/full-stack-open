@@ -17,6 +17,7 @@ function App(props) {
 	const addNote = (event) => {
 		event.preventDefault();
 		console.log('button clicked' , event.target);
+		console.log(event.target.name);
 		const noteObject =  {
 			content: newNote,
 			important: Math.random() < 0.5,
@@ -40,8 +41,8 @@ function App(props) {
 		<h1>Notes</h1>
 		<ul>
 		 {noteList}
-		<form onSubmit={addNote}>
-			<input placeholder="new note" value={newNote} onChange={handleNoteChange}/>
+		<form name="form" onSubmit={addNote}>
+			<input name="note" placeholder="new note" value={newNote} onChange={handleNoteChange}/>
 			<button type="submit">save</button>
 		</form>
 		<button onClick={() => setShowAll(!showAll)}>
