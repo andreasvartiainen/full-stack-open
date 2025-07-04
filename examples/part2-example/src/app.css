@@ -1,0 +1,12 @@
+.error {
+	background-color: darkred;
+	color: white;
+	max-width: 500px;
+
+	padding: 0.1rem;
+
+	border-radius: 1rem;
+	border: 2px solid black;
+
+	text-align: center;
+}

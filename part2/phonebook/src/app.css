@@ -1,0 +1,15 @@
+.notification {
+	border-radius: 0.5rem;
+	font-size: 1rem;
+
+	background-color: lightgray;
+	color: green;
+	border: 5px solid green;
+
+	padding: 0.5rem;
+
+	/* width: max-content; */
+	width: 500px;
+	min-height: 3rem;
+	box-sizing: border-box;
+}

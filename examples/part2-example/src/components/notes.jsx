@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import noteService from "../services/services"
+import Notification from "./notification";
 
 const FILTER_LIST = [
 	(note) => note.important,
@@ -21,7 +22,7 @@ const Notes = () => {
 	const [notes, setNotes] = useState([]);
 	const [newNote, setNewNote] = useState('');
 	const [showAll, setShowAll] = useState(true);
-
+	const [errorMessage, setErrorMessage] = useState('some error happened...');
 
 	const hook = () => {
 		noteService
@@ -59,8 +60,13 @@ const Notes = () => {
 			.then(initialNote => {
 				setNotes(notes.map(note => note.id === id ? initialNote : note))
 			})
+
 		.catch((error) => {
-			alert(`the note '${note.content}' was already deleted from server`);
+			setErrorMessage(`the note '${note.content}' was already deleted from server`);
+			setTimeout(() => {
+				setErrorMessage(null);
+			}, 3000);
+
 			console.log(error);
 			setNotes(notes.filter(n => n.id !== id));
 		})
@@ -82,6 +88,7 @@ const Notes = () => {
  return (
 		<>
 		<h1>Notes</h1>
+	 <Notification message={errorMessage}/>
 		<ul>
 		 {noteList}
 		<form name="form" onSubmit={addNote}>
