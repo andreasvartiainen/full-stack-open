@@ -9,7 +9,7 @@ const Persons = ({persons, filter, removePerson}) => {
 	// filter and add the items to the list use id as key
 	const listPersons = persons.filter(f).map((person) => 
 		<li key={person.id}>{person.name} {person.number}
-		<button onClick={() => removePerson(person.id)}>Remove</button>
+		<button onClick={() => removePerson(person)}>Remove</button>
 		</li> 
 	)
 	return (

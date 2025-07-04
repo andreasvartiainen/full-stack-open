@@ -67,13 +67,17 @@ const App = () => {
 			})
 	}
 
-	const removePerson = (id) => {
+	const removePerson = (person) => {
+		const confirm = window.confirm(`Delete ${person.name}`)
+		// delete entry if confirmation is true
+		if (confirm) {
 		backend
-			.remove(id)
+			.remove(person.id)
 			.then((response) => {
 				console.log(response)
-				setPersons(persons.filter((person) => person.id !== id))
-			})
+				setPersons(persons.filter((p) => p.id !== person.id))
+			});
+		}
 	}
 
   return (
