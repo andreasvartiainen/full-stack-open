@@ -1,14 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import noteService from "../services/services"
 
 const FILTER_LIST = [
 	(note) => note.important,
 	() => true,
 ];
 
-const Note = ({note}) => {
+const Note = ({note, toggleImportant}) => {
+	const label = note.important
+	? 'make not important': 'make important';
 	return (
-		<li>{note.content}</li>
+		<li>{note.content}
+		<button onClick={() => toggleImportant(note.id)}>{label}</button>
+		</li>
 	)
 }
 
@@ -19,39 +24,56 @@ const Notes = () => {
 
 
 	const hook = () => {
-		console.log("effect");
-		axios
-			.get('http://localhost:3002/notes')
-			.then(response => {
-			console.log("promise fullfilled");
-			setNotes(response.data);
+		noteService
+			.getAll()
+			.then(initialNotes => {
+			setNotes(initialNotes);
+		}).catch((error) => {
+			console.log(error);
 		});
 	};
-
 	useEffect(hook, []);
 
-	console.log('render', notes.length, 'notes');
-
-	// unary + turns boolean to 1 or 0
-	const noteList = notes.filter(FILTER_LIST[+showAll]).map(note => <Note key={note.id} note={note}/>);
 
 	const addNote = (event) => {
 		event.preventDefault();
-		console.log('button clicked' , event.target);
-		console.log(event.target.name);
 		const noteObject =  {
 			content: newNote,
 			important: Math.random() < 0.5,
-			id: String(notes.length + 1),
 		};
-		setNotes([...notes, noteObject]);
-		setNewNote('');
+
+		noteService
+			.create(noteObject)
+			.then(initialNote => {
+				setNotes([...notes, initialNote]);
+				setNewNote('');
+		})
 	}
 
+	const toggleImportanceOf = (id) => {
+		const url = `http://localhost:3002/notes/${id}`;
+		const note = notes.find(n => n.id === id);
+		const changedNote = {...note, important: !note.important};
+
+		noteService.update(id, changedNote)
+			.then(initialNote => {
+				setNotes(notes.map(note => note.id === id ? initialNote : note))
+			})
+		.catch((error) => {
+			alert(`the note '${note.content}' was already deleted from server`);
+			console.log(error);
+			setNotes(notes.filter(n => n.id !== id));
+		})
+	}
 	const handleNoteChange = (event) => {
-		console.log(event.target.value);
+		// console.log(event.target.value);
 		setNewNote(event.target.value);
 	}
+
+	// unary + turns boolean to 1 or 0
+	const noteList = notes
+		.filter(FILTER_LIST[+showAll])
+		.map(note => <Note key={note.id} note={note} toggleImportant={toggleImportanceOf}/>);
 
 	// const notesToShow = showAll
 	// 	? notes

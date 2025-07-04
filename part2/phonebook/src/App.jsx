@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Input from './components/input'
 import PersonForm from './components/personForm'
 import Persons from './components/persons'
+import backend from './services/services'
 import axios from 'axios'
 
 const App = () => {
@@ -12,12 +13,12 @@ const App = () => {
 
 	// effect hook for fetching data from the json database
 	useEffect(() => {
-		axios
-			.get('http://localhost:3001/persons')
-			.then((response) => {
-				setPersons(response.data);
+		backend
+			.getAll('http://localhost:3001/persons')
+			.then((persons) => {
+				setPersons(persons);
 			})
-	})
+	}, [])
 
 	const handleChange = (event) => {
 		if (event.target.name === "name") {
@@ -54,12 +55,16 @@ const App = () => {
 		const newPerson = {
 			name: newName,
 			number: newNumber,
-			id: persons.length + 1
 		};
 
-		setPersons([...persons, newPerson]);
-		setNewName('');
-		setNewNumber('');
+		
+		backend
+			.create(newPerson)
+			.then((personReturn) => {
+				setPersons([...persons, personReturn]);
+				setNewName('');
+				setNewNumber('');
+			})
 	}
 
   return (
