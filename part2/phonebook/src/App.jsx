@@ -3,7 +3,6 @@ import Input from './components/input'
 import PersonForm from './components/personForm'
 import Persons from './components/persons'
 import backend from './services/services'
-import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
