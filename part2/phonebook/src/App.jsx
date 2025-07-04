@@ -1,18 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Input from './components/input'
 import PersonForm from './components/personForm'
 import Persons from './components/persons'
+import axios from 'axios'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', phone: '358 505 050', id: 0},
-    { name: 'Ada Lovelace', phone: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', phone: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', phone: '39-23-6423122', id: 4 }
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
-  const [newPhone, setNewPhone] = useState('')
+  const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+
+	// effect hook for fetching data from the json database
+	useEffect(() => {
+		axios
+			.get('http://localhost:3001/persons')
+			.then((response) => {
+				setPersons(response.data);
+			})
+	})
 
 	const handleChange = (event) => {
 		if (event.target.name === "name") {
@@ -20,9 +25,9 @@ const App = () => {
 			setNewName(event.target.value);
 		}
 
-		if (event.target.name === "phone") {
-			console.log(newPhone);
-			setNewPhone(event.target.value);
+		if (event.target.name === "number") {
+			console.log(newNumber);
+			setNewNumber(event.target.value);
 		}
 
 		if (event.target.name === "filter") {
@@ -34,7 +39,7 @@ const App = () => {
 		event.preventDefault();
 
 		// check if we have both fielsd
-		if (newPhone === '' || newName === '') {
+		if (newNumber === '' || newName === '') {
 			alert(`Missing a phone number or name`);
 			return;
 		}
@@ -48,13 +53,13 @@ const App = () => {
 
 		const newPerson = {
 			name: newName,
-			phone: newPhone,
+			number: newNumber,
 			id: persons.length + 1
 		};
 
 		setPersons([...persons, newPerson]);
 		setNewName('');
-		setNewPhone('');
+		setNewNumber('');
 	}
 
   return (
@@ -65,7 +70,7 @@ const App = () => {
       <h2>Add a new</h2>
 			<PersonForm 
 				newName={newName}
-				newPhone={newPhone}
+				newNumber={newNumber}
 				handleChange={handleChange}
 				addPerson={addPerson}
 			/>
