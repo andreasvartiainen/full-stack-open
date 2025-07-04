@@ -67,6 +67,15 @@ const App = () => {
 			})
 	}
 
+	const removePerson = (id) => {
+		backend
+			.remove(id)
+			.then((response) => {
+				console.log(response)
+				setPersons(persons.filter((person) => person.id !== id))
+			})
+	}
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -80,7 +89,7 @@ const App = () => {
 				addPerson={addPerson}
 			/>
 			<h2>Numbers</h2>
-			<Persons persons={persons} filter={filter}/>
+			<Persons persons={persons} filter={filter} removePerson={removePerson}/>
     </div>
   )
 }

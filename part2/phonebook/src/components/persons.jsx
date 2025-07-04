@@ -1,4 +1,4 @@
-const Persons = ({persons, filter}) => {
+const Persons = ({persons, filter, removePerson}) => {
 	// filter for getting substring from an item
 	const f = (person) => {
 		// console.log(person.name.indexOf(filter));
@@ -8,12 +8,14 @@ const Persons = ({persons, filter}) => {
 
 	// filter and add the items to the list use id as key
 	const listPersons = persons.filter(f).map((person) => 
-		<div key={person.id}>{person.name} {person.number}</div> 
+		<li key={person.id}>{person.name} {person.number}
+		<button onClick={() => removePerson(person.id)}>Remove</button>
+		</li> 
 	)
 	return (
-		<>
+		<ul>
 		{listPersons}
-		</>
+		</ul>
 	)
 }
 
