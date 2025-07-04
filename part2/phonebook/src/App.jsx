@@ -14,7 +14,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
 	// {message, type};
-	const [notification, setNotification] = useState({message: 'test', type: 'info'});
+	const [notification, setNotification] = useState(null);
 
 	// effect hook for fetching data from the json database
 	useEffect(() => {
@@ -74,11 +74,14 @@ const App = () => {
 				backend
 				.update(index.id, newObject)
 				.then((response) => {
+				startNotification(`Updated ${response.name}'s number`, 'info');
 					setPersons(persons.map((person) => {
 						return person.id === response.id ? {...person, number: response.number} : person
 					}));
-				startNotification(`Updated ${response.name}'s number`, 'info');
-				});
+				}).catch((error) => {
+				startNotification(`Information of ${newObject.name} had already been removed from the server`, 'error')
+				console.log(error);
+			});
 			}
 
 			setNewName('');
@@ -112,6 +115,9 @@ const App = () => {
 				console.log(response)
 				setPersons(persons.filter((p) => p.id !== person.id))
 				startNotification(`Removed ${response.name}`, 'info');
+			}).catch((error) => {
+				startNotification(`Information of ${person.name} had already been removed from the server`, 'error')
+				console.log(error);
 			});
 		}
 	}

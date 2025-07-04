@@ -13,3 +13,8 @@
 	min-height: 3rem;
 	box-sizing: border-box;
 }
+
+.notification.error {
+	border: 5px solid red;
+	color: red;
+}
