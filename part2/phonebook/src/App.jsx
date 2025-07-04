@@ -45,10 +45,27 @@ const App = () => {
 			return;
 		}
 
+		const newObject = {
+			name: newName,
+			number: newNumber
+		}
+
 		// check if the name already exists empty the string and return
-		if (persons.find((person) => person.name === newName)) {
-			alert(`${newName} is already added to the phonebook`);
+		const index = persons.find((person) => person.name === newName)
+		console.log(index);
+		if (index !== -1 && index !== undefined) {
+			const isConfirm = window.confirm(`${newName} already added to the phone book, replace the old number with a new one?`)
+			if (isConfirm) {
+				backend
+				.update(index.id, newObject)
+				.then((response) => {
+					setPersons(persons.map((person) => {
+						return person.id === response.id ? {...person, number: response.number} : person
+					}));
+				});
+			}
 			setNewName('');
+			setNewNumber('');
 			return;
 		}
 
@@ -68,9 +85,9 @@ const App = () => {
 	}
 
 	const removePerson = (person) => {
-		const confirm = window.confirm(`Delete ${person.name}`)
+		const isConfirm = window.confirm(`Delete ${person.name}`)
 		// delete entry if confirmation is true
-		if (confirm) {
+		if (isConfirm) {
 		backend
 			.remove(person.id)
 			.then((response) => {
