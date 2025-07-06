@@ -1,6 +1,30 @@
 import { useEffect, useState } from "react";
 import services from "./services/services";
 
+const Weather = ({city}) => {
+	const [weather, setWeather] = useState(null);
+	// console.log(city);
+	useEffect(() => {
+		services.GetWeather(city).then((response) => setWeather(response));
+	}, []
+	)
+
+	// console.log(weather);
+
+	if (weather){
+	return (
+		<>
+		{/* temperature in kelvins */}
+		<div>Temperature {(weather.main.temp - 273.15).toFixed(2)}</div>
+		<div>Wind {weather.wind.speed} m/s</div>
+		</>
+	)
+	} else {
+		null
+	}
+
+}
+
 const DetailView = ({country}) => {
 	let languages = []
 	Object.keys(country.languages).forEach((key, index) => {
@@ -17,6 +41,8 @@ const DetailView = ({country}) => {
 		{languages}
 		</ul>
 		<img src={country.flags.png}/>
+		<h1>Weather in {country.capital[0]}</h1>
+		<Weather city={country.capital[0]}/>
 		</>
 	)
 }

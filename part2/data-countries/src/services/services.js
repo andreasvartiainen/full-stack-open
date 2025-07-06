@@ -7,4 +7,9 @@ const GetAll = async () => {
 	return request.then((response) => response.data);
 }
 
-export default {GetAll};
+const GetWeather = async (city) => {
+	const request = axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${import.meta.env.VITE_API_KEY}`)
+	return request.then((response) => response.data);
+}
+
+export default {GetAll, GetWeather};
