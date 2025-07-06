@@ -1,22 +1,13 @@
 import { useEffect, useState } from "react";
 import services from "./services/services";
 
-const Country = ({country, isDetail}) => {
-	const listView = <div>{country.name.common}</div>;
-
+const DetailView = ({country}) => {
 	let languages = []
 	Object.keys(country.languages).forEach((key, index) => {
-		languages.push(<li key={country.languages[key]}>{ country.languages[key]}</li>)})
-
-	// debugging
-	if (isDetail) {
-		console.log(country);
-		console.log(country.languages);
-		console.log(languages);
-	}
+		languages.push(<li key={country.languages[key]}>{ country.languages[key]} </li>)})
 
 	// detail view for showing one element
-	const detailView = (
+	return (
 		<>
 		<h1>{country.name.common}</h1>
 		<div>Capital: {country.capital[0]}</div>
@@ -28,16 +19,20 @@ const Country = ({country, isDetail}) => {
 		<img src={country.flags.png}/>
 		</>
 	)
+}
+
+const Country = ({country, isDetail, onClick}) => {
+	const listView = <div>{country.name.common}<button onClick={() => onClick(country)}>Show</button></div>;
 
 	return (
 		<>
-		{isDetail ?  detailView : listView}
+		{isDetail ?  <DetailView country={country}/> : listView}
 		</>
 	)
 }
 
-const CountryList = ({countries}) => {
-	const countryList = countries?.map((country) => <Country key={country.name.common} country={country} isDetail={false}/>)
+const CountryList = ({countries, onClick}) => {
+	const countryList = countries?.map((country) => <Country key={country.name.common} country={country} isDetail={false} onClick={onClick}/>)
 
 	return (
 		<>
@@ -51,6 +46,7 @@ const CountryList = ({countries}) => {
 const App = () => {
 	const [countries, setCountries] = useState(null);
 	const [search, setSearch] = useState('');
+	const [select, setSelect] = useState(null);
 
 	useEffect(() => {
 		services.GetAll().then(
@@ -62,10 +58,27 @@ const App = () => {
 
 	const handleChange = (event) => {
 		setSearch(event.target.value);
+		setSelect(null);
+	}
+
+	const handleSelect = (country) => {
+		setSelect(country);
 	}
 
 	const foundCountries = countries
 			?.filter((country) => country.name.common.includes(search))
+
+	const renderView = (
+		<>
+		{search !== '' 
+			? (
+				foundCountries?.length < 10 
+				? <CountryList countries={foundCountries} onClick={handleSelect}/> 
+				: "Too many matches"
+				) 
+			: null}
+		</>
+	)
 
 	return (
 		<div>
@@ -73,7 +86,7 @@ const App = () => {
 		find countries:
 		<input value={search} onChange={handleChange}/>
 		</div>
-		{search !== '' ? (foundCountries?.length < 10 ? <CountryList countries={foundCountries}/> : "Too many matches") : null}
+		{select ? <DetailView country={select} /> : renderView}
 		</div>
 	)
 }
