@@ -67,7 +67,7 @@ const App = () => {
 
 		// check if the name already exists empty the string and return
 		const index = persons.find((person) => person.name === newName)
-		console.log(index);
+		console.log("person exists", index);
 		if (index !== -1 && index !== undefined) {
 			const isConfirm = window.confirm(`${newName} already added to the phone book, replace the old number with a new one?`)
 			if (isConfirm) {
@@ -99,7 +99,7 @@ const App = () => {
 		backend
 			.create(newPerson)
 			.then((personReturn) => {
-				console.log(personReturn);
+				console.log("create endpoint response: ", personReturn);
 				setPersons([...persons, personReturn]);
 				setNewName('');
 				setNewNumber('');
