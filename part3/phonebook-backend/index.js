@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 const morganConfig = (tokens, req, res) => {
-	morgan.token('body', (req,res) => {return JSON.stringify(req.body)})
+	morgan.token('body', (req, res) => {return JSON.stringify(req.body)})
 
   return [
     tokens.method(req, res),
@@ -56,7 +56,6 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-	console.log(request);
 	response.json(persons);
 })
 
