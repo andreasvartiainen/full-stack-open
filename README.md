@@ -1,3 +1,7 @@
+# notes
+
+I use submodules so clone with recursive enabled
+
 # full stack open
 
 full stack course by helsinki university [course link](https://fullstackopen.com)
