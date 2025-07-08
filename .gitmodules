@@ -1,0 +1,3 @@
+[submodule "part3/phonebook-backend_sub"]
+	path = part3/phonebook-backend_sub
+	url = git@github.com:andreasvartiainen/full-stack-phonebackend.git
