@@ -1,8 +1,10 @@
 const Persons = ({persons, filter, removePerson}) => {
+
 	// filter for getting substring from an item
 	const f = (person) => {
 		// console.log(person.name.indexOf(filter));
 		// put filter and name to lowercase
+		// console.log(person);
 		return person.name.toLowerCase().indexOf(filter.toLowerCase()) != -1
 	}
 
@@ -12,6 +14,7 @@ const Persons = ({persons, filter, removePerson}) => {
 		<button onClick={() => removePerson(person)}>Remove</button>
 		</li> 
 	)
+
 	return (
 		<ul>
 		{listPersons}

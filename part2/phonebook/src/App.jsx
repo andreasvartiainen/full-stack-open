@@ -23,7 +23,7 @@ const App = () => {
 			.then((persons) => {
 				setPersons(persons);
 			})
-	}, [])
+	}, [] )
 
 	const handleChange = (event) => {
 		if (event.target.name === "name") {
@@ -99,6 +99,7 @@ const App = () => {
 		backend
 			.create(newPerson)
 			.then((personReturn) => {
+				console.log(personReturn);
 				setPersons([...persons, personReturn]);
 				setNewName('');
 				setNewNumber('');
