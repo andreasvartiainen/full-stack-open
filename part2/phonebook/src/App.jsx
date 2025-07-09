@@ -27,12 +27,10 @@ const App = () => {
 
 	const handleChange = (event) => {
 		if (event.target.name === "name") {
-			console.log(newName);
 			setNewName(event.target.value);
 		}
 
 		if (event.target.name === "number") {
-			console.log(newNumber);
 			setNewNumber(event.target.value);
 		}
 
@@ -115,7 +113,7 @@ const App = () => {
 			.then((response) => {
 				console.log(response)
 				setPersons(persons.filter((p) => p.id !== person.id))
-				startNotification(`Removed ${response.name}`, 'info');
+				startNotification(`Removed ${person.name}`, 'info');
 			}).catch((error) => {
 				startNotification(`Information of ${person.name} had already been removed from the server`, 'error')
 				console.log(error);

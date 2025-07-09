@@ -20,7 +20,9 @@ const update = async (id, newObject) => {
 // remove item from the database
 const remove = async (id) => {
 	const request = axios.delete(`${baseUrl}/${id}`);
-	return request.then((response) => response.data);
+	return request.then((response) => {
+		return response.data;
+	});
 }
 
 export default {getAll, create, update, remove};
