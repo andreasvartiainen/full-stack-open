@@ -102,6 +102,9 @@ const App = () => {
 				setNewName('');
 				setNewNumber('');
 			})
+			.catch(error => {
+				setNotification({message: error.response.data.error, type: 'error'})
+				});
 	}
 
 	const removePerson = (person) => {
