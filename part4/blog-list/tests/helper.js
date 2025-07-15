@@ -80,13 +80,6 @@ const initialUsers = [
 		_id: '68753e7b44c9a154e4f0b5ec',
 		__v: 0,
 	},
-	{
-		username: 'Caterine',
-		name: 'Cat Quij',
-		blogs: [],
-		_id: '6875409d89f2fe73752e96b4',
-		__v: 0,
-	}
 ];
 
 const getBlogsInDb = async () => {
