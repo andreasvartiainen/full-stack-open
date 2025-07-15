@@ -7,10 +7,14 @@ const app = require('../app');
 
 const api = supertest(app);
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 beforeEach( async () => {
 	await Blog.deleteMany({});
 	await Blog.insertMany(helper.initialBlogs);
+
+	await User.deleteMany({});
+	await User.insertMany(helper.initialUsers);
 });
 
 describe.only('blog tests', async () => {
@@ -63,6 +67,7 @@ describe.only('delete', async () => {
 
 		await api
 			.delete(`/api/blogs/${notesAtStart[0].id}`)
+			.set('Authorization', process.env.AUTH_TOKEN)
 			.expect(204);
 
 		const notesAtEnd = await helper.getBlogsInDb();
@@ -86,6 +91,7 @@ describe.only('post', async () => {
 		const returnedBlog = await api
 			.post('/api/blogs')
 			.send(newBlog)
+			.set('Authorization', process.env.AUTH_TOKEN)
 			.expect(201)
 			.expect('Content-Type', /application\/json/);
 
@@ -100,6 +106,21 @@ describe.only('post', async () => {
 		assert.strictEqual(blogsAtEnd.length, blogsAtStart.length + 1);
 	});
 
+	await test('blog return 401 with invalid token', async () => {
+		const newBlog = {
+			title: 'Hitchhiker\'s guide to galaxy',
+			author: 'Douglas Addams',
+			url: 'https://reactpatterns.com/',
+		};
+
+		await api
+			.post('/api/blogs')
+			.send(newBlog)
+			.set('Authorization', 'Bearer 123123123123123123')
+			.expect(401)
+			.expect('Content-Type', /application\/json/);
+	});
+
 	await test('blog can be added and likes default to 0', async () => {
 		const newBlog = {
 			title: 'Hitchhiker\'s guide to galaxy',
@@ -110,6 +131,7 @@ describe.only('post', async () => {
 		const returnedBlog = await api
 			.post('/api/blogs')
 			.send(newBlog)
+			.set('Authorization', process.env.AUTH_TOKEN)
 			.expect(201)
 			.expect('Content-Type', /application\/json/);
 
@@ -122,6 +144,7 @@ describe.only('post', async () => {
 		await api
 			.post('/api/blogs')
 			.send(newBlog)
+			.set('Authorization', process.env.AUTH_TOKEN)
 			.expect(400);
 	});
 });

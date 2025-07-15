@@ -1,4 +1,5 @@
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 const oneBlog = [
 	{
@@ -18,6 +19,7 @@ const initialBlogs = [
 		author: 'Michael Chan',
 		url: 'https://reactpatterns.com/',
 		likes: 7,
+		user: '6876450e62cceeb4abf1159f',
 		__v: 0
 	},
 	{
@@ -62,9 +64,39 @@ const initialBlogs = [
 	}
 ];
 
+const initialUsers = [
+	{
+		username: 'Pekka',
+		name: 'Pekka Pouta',
+		blogs: [
+		],
+		_id: '6876450e62cceeb4abf1159f',
+		__v: 0,
+	},
+	{
+		username: 'Tomiv',
+		name: 'Tomi Vartiainen',
+		blogs: [],
+		_id: '68753e7b44c9a154e4f0b5ec',
+		__v: 0,
+	},
+	{
+		username: 'Caterine',
+		name: 'Cat Quij',
+		blogs: [],
+		_id: '6875409d89f2fe73752e96b4',
+		__v: 0,
+	}
+];
+
 const getBlogsInDb = async () => {
 	const blogs = await Blog.find({});
 	return blogs.map((blog) => blog.toJSON());
 };
 
-module.exports = { oneBlog, initialBlogs, getBlogsInDb };
+const getUsersInDb = async () => {
+	const users = await User.find({});
+	return users.map((blog) => blog.toJSON());
+};
+
+module.exports = { oneBlog, initialBlogs, initialUsers, getBlogsInDb, getUsersInDb };
