@@ -1,10 +1,9 @@
 import { useState } from "react";
-import blogService from "../services/blogs"
 
-const AddBlog = ({createBlog}) => {
+const NewBlog = ({createBlog}) => {
 	const [blog, setBlog] = useState({title: '', author: '', url: ''});
 
-		const handleChange = ({target}) => {
+	const handleChange = ({target}) => {
 		switch (target.name){
 		case "Title": {
 			const newBlog = {...blog, title: target.value};
@@ -60,4 +59,4 @@ const AddBlog = ({createBlog}) => {
 	)
 };
 
-export default AddBlog;
+export default NewBlog;

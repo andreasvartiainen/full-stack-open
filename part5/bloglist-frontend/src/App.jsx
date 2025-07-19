@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import login from './services/login';
-import AddBlog from './components/AddBlog';
+import NewBlog from './components/AddBlog';
 import Error from './components/Error';
 import Togglable from './components/Togglable';
 
@@ -121,7 +121,7 @@ const App = () => {
 				<button onClick={handleLogout}>Logout</button>
 				<h2>create new</h2>
 				<Togglable buttonLabel="New Note" ref={toggleRef}>
-				<AddBlog createBlog={createBlog}/>
+				<NewBlog createBlog={createBlog}/>
 				</Togglable>
 				<div>
 				{noteForm()}
