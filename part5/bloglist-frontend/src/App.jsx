@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import login from './services/login';
 import AddBlog from './components/AddBlog';
 import Error from './components/Error';
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,6 +12,7 @@ const App = () => {
 	const [password, setPassword] = useState('');
 	const [user, setUser] = useState(null);
 	const [error, setError] = useState(null);
+	const toggleRef = useRef();
 
   useEffect(() => {
 		if (user) {
@@ -71,6 +73,8 @@ const App = () => {
 		} catch(exception) {
 			console.log(exception);
 		}
+
+		toggleRef.current.toggleVisibility();
 	}
 
 	const loginForm = () => 
@@ -116,7 +120,9 @@ const App = () => {
 				{user.name} logged in
 				<button onClick={handleLogout}>Logout</button>
 				<h2>create new</h2>
+				<Togglable buttonLabel="New Note" ref={toggleRef}>
 				<AddBlog createBlog={createBlog}/>
+				</Togglable>
 				<div>
 				{noteForm()}
 				</div>
