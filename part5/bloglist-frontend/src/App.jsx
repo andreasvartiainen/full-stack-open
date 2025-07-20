@@ -16,8 +16,12 @@ const App = () => {
 
   useEffect(() => {
 		if (user) {
-			blogService.getAll().then(blogs =>
-				setBlogs( blogs )
+			blogService.getAll().then(blogs => 
+				{
+					// sorting the blogs by likes
+					const sortedBlogs = blogs.sort((a, b) => a.likes < b.likes)
+					setBlogs(sortedBlogs)
+				}
 			)  
 		}
   }, [user])
@@ -99,11 +103,26 @@ const App = () => {
 			<button type="submit">Login</button>
 			</div>
 		</form>
-	
+
+	const sort = () => {
+		const sortedBlogs = [...blogs]
+		sortedBlogs.sort((a, b) => a.likes < b.likes)
+		setBlogs(sortedBlogs)
+	}
+
+	const removeBlog = (blog) => {
+		const accept = window.confirm(`remove blog ${blog.title}`);
+		if (accept)
+		{
+			blogService.remove(blog.id)
+			setBlogs(blogs.filter(b => b.id != blog.id))
+		}
+	}
+
 	const noteForm = () => 
 		<div>
       {blogs.map(blog => {
-					return <Blog key={blog.id} blog={blog} />
+					return <Blog key={blog.id} blog={blog} onLike={sort} onDelete={removeBlog}/>
 			})}
 		</div>
 
