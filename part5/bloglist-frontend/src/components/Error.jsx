@@ -1,9 +1,9 @@
-const Error = ({text}) => {
+const Error = ({ text }) => {
 	return (
 		<>
-		<div className="notification">
-		{text}
-		</div>
+			<div className="notification">
+				{text}
+			</div>
 		</>
 	)
 }

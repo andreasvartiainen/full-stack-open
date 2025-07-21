@@ -12,8 +12,8 @@ const getAll = () => {
 		headers: { authorization: token }
 	}
 
-  const request = axios.get(baseUrl, config)
-  return request.then(response => response.data)
+	const request = axios.get(baseUrl, config)
+	return request.then(response => response.data)
 }
 
 // newBlog { title, author, url }
