@@ -60,6 +60,28 @@ const App = () => {
 		}
 	}
 
+	const sort = () => {
+		const sortedBlogs = [...blogs]
+		sortedBlogs.sort((a, b) => a.likes < b.likes)
+		setBlogs(sortedBlogs)
+	}
+
+	const handleLike = async (blog) => {
+		const newLikes = blog.likes + 1
+
+		setBlogs(blogs.map((b) => {
+			if (b.id === blog.id) {
+				return { ...b, likes: newLikes }
+			}
+			return b
+		}))
+
+		blog.likes = newLikes
+
+		await blogService.update(blog)
+		sort()
+	}
+
 	const handleLogout = () => {
 		blogService.setToken(null)
 		window.localStorage.clear()
@@ -81,12 +103,6 @@ const App = () => {
 		toggleRef.current.toggleVisibility()
 	}
 
-	const sort = () => {
-		const sortedBlogs = [...blogs]
-		sortedBlogs.sort((a, b) => a.likes < b.likes)
-		setBlogs(sortedBlogs)
-	}
-
 	const removeBlog = (blog) => {
 		const accept = window.confirm(`remove blog ${blog.title}`)
 		if (accept) {
@@ -98,7 +114,7 @@ const App = () => {
 	const noteForm = () =>
 		<div>
 			{blogs.map(blog => {
-				return <Blog key={blog.id} blog={blog} onLike={sort} onDelete={removeBlog} />
+				return <Blog key={blog.id} blog={blog} onLike={handleLike} onDelete={removeBlog} />
 			})}
 		</div>
 

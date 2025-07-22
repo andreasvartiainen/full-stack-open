@@ -4,7 +4,6 @@ import './blog.css'
 
 const Blog = ({ blog, onLike, onDelete }) => {
 	const [visible, setVisible] = useState(false)
-	const [likes, setLikes] = useState(blog.likes)
 
 	const infoHidden = { display: `${visible ? '' : 'none'}` }
 	// const infoShow = { display: `${visible ? 'none' : ''}` }
@@ -13,19 +12,10 @@ const Blog = ({ blog, onLike, onDelete }) => {
 		setVisible(!visible)
 	}
 
-	const handleLike = async (blog) => {
-		const newLikes = likes + 1
-		setLikes(newLikes)
-		blog.likes = newLikes
-
-		await blogService.update(blog)
-		await onLike()
-	}
-
 	return (
-		<div className="blogContainer">
+		<div className="blog">
 			<div>
-				{blog.title}
+				{blog.title} - {blog.author}
 				<button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
 			</div>
 			<div style={infoHidden}>
@@ -34,7 +24,7 @@ const Blog = ({ blog, onLike, onDelete }) => {
 				</div>
 				<div>
 					likes: {blog.likes}
-					<button onClick={() => handleLike(blog)}>like</button>
+					<button onClick={() => onLike(blog)}>like</button>
 				</div>
 				<div>
 					{blog.author}
